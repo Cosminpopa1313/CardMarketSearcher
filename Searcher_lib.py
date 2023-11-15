@@ -81,7 +81,7 @@ def retrive_sellers_data_for_card(url,language_filter):
     
 def retrive_cardname_fromedition(edition):
 
-    Card_List =[]
+    card_List =[]
     Singles_url = "/Singles/"+edition+"/"
     for x in range(8):
 
@@ -104,11 +104,11 @@ def retrive_cardname_fromedition(edition):
             card_name_url = matches.group()
             card_name = re.sub(Singles_url,"",card_name_url)
             card_name = re.sub('"',"",card_name)
-            Card_List.append(card_name)
+            card_List.append(card_name)
     
     
     
-    return Card_List
+    return card_List
 
 def create_csv_from_Cardmarket(data_origin,file_name):
 
@@ -122,3 +122,12 @@ def create_csv_from_Cardmarket(data_origin,file_name):
         
 
     return "File creato!"
+
+def read_csv_data(file):
+    data = []
+    with open(file,newline='') as file:
+        reader = csv.reader(file,delimiter=' ',quotechar=',')
+        for row in reader:
+            data.append(row)
+    
+    return data
