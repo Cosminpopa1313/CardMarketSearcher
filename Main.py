@@ -1,7 +1,7 @@
 from tkinter import *
 import Searcher_lib as Iterator
 
-print(Iterator.create_csv_from_Cardmarket(Iterator.retrive_cardname_fromedition("Pillars-of-Strength-Japanese"),"Pillars-of-Strength-Japanese.csv"))
+print(Iterator.create_csv_from_Cardmarket(Iterator.retrive_cardname_fromedition("Awakening-of-the-New-Era-Japanese"),"Awakening-of-the-New-Era-Japanese.csv"))
 
 
 
