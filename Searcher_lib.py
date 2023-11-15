@@ -5,7 +5,7 @@ import csv
 
 
 
-def retrive_sellers_data_for_card(url,language_filter):
+def retrive_sellers_data_for_card(card_name):
 
     
     page_pattern = '<div id="articleRow.*?<div class="actions-container.*?</div></div></div>'
@@ -23,7 +23,7 @@ def retrive_sellers_data_for_card(url,language_filter):
 
 
     req = Request(
-        url = "https://www.cardmarket.com/it/OnePiece/Products/Singles/Romance-Dawn/MonkeyDLuffy-OP01-024-V1",
+        url = "https://www.cardmarket.com/it/OnePiece/Products/Singles/Romance-Dawn/"+ str(card_name),
         headers={'User-Agent': 'Mozilla/5.0'}
     )
     page = urlopen(req).read()

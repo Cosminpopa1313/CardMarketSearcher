@@ -15,11 +15,17 @@ class HomePage:
         self.frame.pack()
         
 
-        self.card_List_Viewer = tk.Listbox(self.frame)
-        self.card_List_Viewer.pack(side="left",anchor="n")
+        self.card_List_Viewer = tk.Listbox(self.frame,height=30)
+        self.card_List_Viewer.pack(side="right")
+        self.card_List_Viewer.bind("<<ListboxSelect>>",self.get_selected_card)
 
-        self.edition_List_Viewer = tk.Listbox(self.frame)
-        self.edition_List_Viewer.pack(side="left",anchor="n")
+        self.edition_List_Viewer = tk.Listbox(self.frame,height=7)
+        self.edition_List_Viewer.pack(side="right")
+        self.edition_List_Viewer.bind("<<ListboxSelect>>",self.get_selected_edition)
+
+        
+
+
 
         for x in OP_EDITIONS:
             self.edition_List_Viewer.insert("end",x)
@@ -27,9 +33,11 @@ class HomePage:
         self.card_List_Scrollbar = tk.Scrollbar(self.frame)
         self.card_List_Scrollbar.pack( side = "right", fill="y")
 
-        self.update_Card_List = tk.Button(self.frame, text="Seleziona edizione", command=self.get_selected_edition)
-        self.update_Card_List.pack()
+        self.card_data_JP = tk.Text(self.frame)
+        self.card_data_JP.pack(side = "left")
 
+        self.card_data_EN = tk.Text(self.frame)
+        self.card_data_EN.pack(side = "left")
 
     def empty_Card_List(self):    
         return self.card_List_Viewer.delete(0,"end")
@@ -40,7 +48,7 @@ class HomePage:
             self.card_List_Viewer.insert("end",x)
         return data
     
-    def get_selected_edition(self):
+    def get_selected_edition(self,event=' '):
         selected_indices = self.edition_List_Viewer.curselection()
         if(selected_indices):
             selected_index = selected_indices[0]
@@ -48,7 +56,21 @@ class HomePage:
             file_name = selected_edition + ".csv"
             self.empty_Card_List()
             self.set_Card_List(Cardmarket.read_csv_data(file_name))
+
+    def get_selected_card(self,event=' '):
+        selected_indices = self.card_List_Viewer.curselection()
+        if(selected_indices):
+            selected_index = selected_indices[0]
+            selected_card = self.card_List_Viewer.get(selected_index)
+            JP_List, EN_List = Cardmarket.retrive_sellers_data_for_card(selected_card[0])
             
+            for x in JP_List:
+                self.card_data_JP.insert("end",x)
+            for x in EN_List:
+                self.card_data_EN.insert("end",x)
+            
+
+
 
 
 if __name__=="__main__":
