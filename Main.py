@@ -4,13 +4,19 @@ from glob import glob
 
 OP_EDITIONS = ["Romance-Dawn","Paramount-War","Pillars-of-Strength","Pillars-of-Strength-Japanese","Kingdoms-of-Intrigue","Kingdoms-of-Intrigue-Japanese","Awakening-of-the-New-Era-Japanese"]
 
+
 class HomePage:
 
     
 
     def __init__(self,root):
+
+        self.current_edition = ""
+
         self.root = root
         self.frame = tk.Frame(self.root)
+
+
 
         self.frame.pack()
         
@@ -41,6 +47,11 @@ class HomePage:
 
     def empty_Card_List(self):    
         return self.card_List_Viewer.delete(0,"end")
+    def empty_Card_Data_JP(self):    
+        return self.card_data_JP.delete('1.0',"end")
+    def empty_Card_Data_EN(self):    
+        return self.card_data_EN.delete('1.0',"end")
+    
     
     def set_Card_List(self,data):
        
@@ -54,6 +65,8 @@ class HomePage:
             selected_index = selected_indices[0]
             selected_edition = self.edition_List_Viewer.get(selected_index)
             file_name = selected_edition + ".csv"
+            self.current_edition= selected_edition
+            
             self.empty_Card_List()
             self.set_Card_List(Cardmarket.read_csv_data(file_name))
 
@@ -62,8 +75,10 @@ class HomePage:
         if(selected_indices):
             selected_index = selected_indices[0]
             selected_card = self.card_List_Viewer.get(selected_index)
-            JP_List, EN_List = Cardmarket.retrive_sellers_data_for_card(selected_card[0])
             
+            JP_List, EN_List = Cardmarket.retrive_sellers_data_for_card(selected_card[0],self.current_edition)
+            self.empty_Card_Data_JP()
+            self.empty_Card_Data_EN()
             for x in JP_List:
                 self.card_data_JP.insert("end",x)
             for x in EN_List:
